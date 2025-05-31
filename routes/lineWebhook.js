@@ -17,8 +17,6 @@ const client = new line.Client({
   channelSecret,
 });
 
-// Use express.raw to get the raw body for signature validation
-router.use(express.raw({ type: '*/*' }));
 
 function isValidSignature(signature, body, secret) {
   const hash = crypto
