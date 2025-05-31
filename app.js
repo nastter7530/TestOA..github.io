@@ -20,13 +20,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+console.log('✅ Middleware and static files set up');
+
 app.use('/', indexRouter);
+console.log('✅ Index router set up');
 app.use('/users', usersRouter);
+console.log('✅ Users router set up');
 // app.use('/webhook', lineWebhookRouter); // add this line
 app.use('/webhook', express.raw({ type: '*/*' }), lineWebhookRouter);
+console.log('✅ LINE webhook router set up with express.raw');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.warn('⚠️ 404 Not Found:', req.originalUrl);
   next(createError(404));
 });
 
@@ -37,8 +43,11 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
+  console.error('❌ Error handler:', err);
   res.status(err.status || 500);
   res.render('error');
 });
+
+console.log('✅ App setup complete');
 
 module.exports = app;
